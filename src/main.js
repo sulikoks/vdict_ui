@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 
-import "./core/service-worker";
 import vuetify from "./core/vuetify";
 import loader from "./core/loader";
 

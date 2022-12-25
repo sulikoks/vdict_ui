@@ -14,7 +14,7 @@ export default defineConfig({
     vue(),
     vuetify(),
     VitePWA({
-      registerType: "autoUpdate",
+      registerType: "prompt",
       strategies: "generateSW",
       injectRegister: "auto",
       devOptions: {
@@ -22,13 +22,10 @@ export default defineConfig({
       },
       workbox: {
         globDirectory: "dist/",
-        globPatterns: [
-          "**/*.ttf*",
-          "**/*.woff*",
-          "**/*.woff2*",
-          "**/*.{js,css,html,png,svg,eot,txt}",
-        ],
+        globPatterns: ["**/*.{js,css,html,png,svg,eot,txt,ttf,woff,woff2}"],
         cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
       },
       includeAssets: [
         "favicon.ico",
@@ -54,7 +51,7 @@ export default defineConfig({
             type: "image/png",
           },
           {
-            src: "pwa-512x512.png",
+            src: "/android-chrome-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",
