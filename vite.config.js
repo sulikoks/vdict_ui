@@ -26,7 +26,7 @@ export default defineConfig({
           "**/*.ttf?*",
           "**/*.woff?*",
           "**/*.woff2?*",
-          "**/*.{js,css,html,png,svg,eot,ttf,woff,woff2,txt}",
+          "**/*.{js,css,html,png,svg,eot,txt}",
         ],
         cleanupOutdatedCaches: true,
       },
