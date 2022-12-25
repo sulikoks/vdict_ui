@@ -13,7 +13,19 @@
     <title>VBank</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div style="opacity: 0; transition: opacity 0.5s" id="app"></div>
+    <img
+      style="
+        opacity: 100%;
+        position: absolute;
+        top: 50vh;
+        left: 50vw;
+        transition: opacity 0.3s;
+        transform: translate(-50%, -50%);
+      "
+      id="main-loader"
+      src="/loader.svg"
+    />
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
