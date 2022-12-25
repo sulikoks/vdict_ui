@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@mdi/font': ^7.1.96
   '@vitejs/plugin-vue': ^1.2.4
   '@vue/compiler-sfc': ^3.0.5
   prettier: ^2.2.1
@@ -13,7 +12,6 @@ specifiers:
   workbox-window: ^6.5.4
 
 dependencies:
-  '@mdi/font': 7.1.96
   vite-plugin-vuetify: 1.0.1_bnqyoddanbssi737fgdohlzqni
   vue: 3.2.44
   vuetify: 3.0.6_sejlvevtnzm2hvgzgubbmxfshy
@@ -1261,10 +1259,6 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
-
-  /@mdi/font/7.1.96:
-    resolution: {integrity: sha512-Imag6npmfkBDi2Ze2jiZVAPTDIKLxhz2Sx82xJ2zctyAU5LYJejLI5ChnDwiD9bMkQfVuzEsI98Q8toHyC+HCg==}
-    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
