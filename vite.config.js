@@ -22,7 +22,10 @@ export default defineConfig({
       },
       workbox: {
         globDirectory: "dist/",
-        globPatterns: ["**/*.{js,css,html,png,svg,eot,ttf,woff,woff2,txt}"],
+        globPatterns: [
+          "**/*.{ttf,woff,woff2}\\?*",
+          "**/*.{js,css,html,png,svg,eot,ttf,woff,woff2,txt}",
+        ],
         cleanupOutdatedCaches: true,
       },
       includeAssets: [
