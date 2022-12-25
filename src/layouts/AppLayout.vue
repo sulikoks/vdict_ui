@@ -28,7 +28,7 @@
 
 <script setup>
 import { reactive } from "vue";
-import ReloadPrompt from "./components/ReloadPrompt.vue";
+import ReloadPrompt from "../components/ReloadPrompt.vue";
 
 const state = reactive({ drawer: false });
 </script>
