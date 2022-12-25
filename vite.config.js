@@ -15,9 +15,13 @@ export default defineConfig({
     vuetify(),
     VitePWA({
       registerType: "autoUpdate",
+      strategies: "generateSW",
       injectRegister: "auto",
       devOptions: {
         enabled: NODE_ENV !== "production",
+      },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,png,svg,eot,ttf,woff,woff2}"],
       },
       includeAssets: [
         "favicon.ico",
