@@ -23,11 +23,12 @@ export default defineConfig({
       workbox: {
         globDirectory: "dist/",
         globPatterns: [
-          "**/*.ttf\\?v=7.1.96",
-          "**/*.woff\\?v=7.1.96",
-          "**/*.woff2\\?v=7.1.96",
+          "**/*.ttf",
+          "**/*.woff",
+          "**/*.woff2",
           "**/*.{js,css,html,png,svg,eot,txt}",
         ],
+        include: [/\.(woff2)(?=\?|$|)/],
         cleanupOutdatedCaches: true,
       },
       includeAssets: [
