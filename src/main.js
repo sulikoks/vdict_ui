@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+import vuetify from "./core/vuetify";
+
+createApp(App).use(vuetify).mount('#app')

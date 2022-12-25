@@ -7,7 +7,10 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.0.5"
+    "@mdi/font": "^7.1.96",
+    "vite-plugin-vuetify": "^1.0.1",
+    "vue": "^3.0.5",
+    "vuetify": "^3.0.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.4",
