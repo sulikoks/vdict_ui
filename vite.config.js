@@ -23,7 +23,7 @@ export default defineConfig({
       workbox: {
         globPatterns: [
           "**/*.{js,css,html,png,svg,eot,ttf,woff,woff2,txt}",
-          "**/*.{ttf,woff,woff2}\\?*",
+          "**/*.{ttf,woff,woff2}*",
         ],
         cleanupOutdatedCaches: true,
       },
