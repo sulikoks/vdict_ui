@@ -21,7 +21,10 @@ export default defineConfig({
         enabled: NODE_ENV !== "production",
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,png,svg,eot,ttf,woff,woff2}"],
+        globPatterns: [
+          "**/*.{js,css,html,png,svg,eot,ttf,woff,woff2,txt}",
+          "**/*.{ttf,woff,woff2}\\?*",
+        ],
         cleanupOutdatedCaches: true,
       },
       includeAssets: [
