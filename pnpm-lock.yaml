@@ -10,6 +10,7 @@ specifiers:
   vite-plugin-vuetify: ^1.0.1
   vue: ^3.0.5
   vuetify: ^3.0.6
+  workbox-window: ^6.5.4
 
 dependencies:
   '@mdi/font': 7.1.96
@@ -22,7 +23,8 @@ devDependencies:
   '@vue/compiler-sfc': 3.2.44
   prettier: 2.8.1
   vite: 3.2.5
-  vite-plugin-pwa: 0.14.0_vite@3.2.5
+  vite-plugin-pwa: 0.14.0_v7patrztka3wxwjwwj7rxgk7ey
+  workbox-window: 6.5.4
 
 packages:
 
@@ -2925,10 +2927,11 @@ packages:
       punycode: 2.1.1
     dev: true
 
-  /vite-plugin-pwa/0.14.0_vite@3.2.5:
+  /vite-plugin-pwa/0.14.0_v7patrztka3wxwjwwj7rxgk7ey:
     resolution: {integrity: sha512-3wZx47PLWTckOQhc8Y6YZjAbNZ89Ovh4TdCT97MGhgl7aFd2LUekVnAmIgFwgMqyxzJ93nmkPF/ALpEW/i2qCg==}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0
+      workbox-window: ^6.5.4
     dependencies:
       '@rollup/plugin-replace': 5.0.2_rollup@3.8.1
       debug: 4.3.4
