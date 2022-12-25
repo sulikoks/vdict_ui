@@ -23,9 +23,9 @@ export default defineConfig({
       workbox: {
         globDirectory: "dist/",
         globPatterns: [
-          "**/*.ttf?v=7.1.96",
-          "**/*.woff?v=7.1.96",
-          "**/*.woff2?v=7.1.96",
+          "**/*.ttf\\?v=7.1.96",
+          "**/*.woff\\?v=7.1.96",
+          "**/*.woff2\\?v=7.1.96",
           "**/*.{js,css,html,png,svg,eot,txt}",
         ],
         cleanupOutdatedCaches: true,
