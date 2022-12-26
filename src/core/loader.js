@@ -4,9 +4,6 @@ class Loader {
   constructor() {
     this.$elApp = document.getElementById(this.idApp);
     this.$el = document.getElementById(this.id);
-
-    console.log(this.$elApp);
-    console.log(this.$el);
   }
 
   hide() {
