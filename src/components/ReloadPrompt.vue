@@ -36,6 +36,7 @@ const close = async () => {
   border-radius: 4px;
   z-index: 1;
   text-align: left;
+  color: #1c1c1c !important;
   box-shadow: 3px 4px 5px 0 #8885;
   background-color: white;
 }
