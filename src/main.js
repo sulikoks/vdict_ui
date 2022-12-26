@@ -1,14 +1,16 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 
+import router from "./router";
 import vuetify from "./core/vuetify";
 import loader from "./core/loader";
 
 createApp(App)
+  .use(router)
   .use(vuetify)
   .mount("#app")
   .$nextTick()
   .then(() => {
-    console.log("Hello");
+    console.log("Hello! App is loaded");
     loader.hide();
   });

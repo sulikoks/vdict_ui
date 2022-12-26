@@ -8,12 +8,14 @@ specifiers:
   vite-plugin-pwa: ^0.14.0
   vite-plugin-vuetify: ^1.0.1
   vue: ^3.0.5
+  vue-router: ^4.1.6
   vuetify: ^3.0.6
   workbox-window: ^6.5.4
 
 dependencies:
   vite-plugin-vuetify: 1.0.1_bnqyoddanbssi737fgdohlzqni
   vue: 3.2.44
+  vue-router: 4.1.6_vue@3.2.44
   vuetify: 3.0.6_sejlvevtnzm2hvgzgubbmxfshy
 
 devDependencies:
@@ -1437,6 +1439,10 @@ packages:
     dependencies:
       '@vue/compiler-dom': 3.2.44
       '@vue/shared': 3.2.44
+
+  /@vue/devtools-api/6.4.5:
+    resolution: {integrity: sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ==}
+    dev: false
 
   /@vue/reactivity-transform/3.2.44:
     resolution: {integrity: sha512-WGbEiXaS2qAOTS9Z3kKk2Nk4bi8OUl73Sih+h0XV9RTUATnaJSEQedveHUDQnHyXiZwyBMKosrxJg8aThHO/rw==}
@@ -2988,6 +2994,15 @@ packages:
       rollup: 2.79.1
     optionalDependencies:
       fsevents: 2.3.2
+
+  /vue-router/4.1.6_vue@3.2.44:
+    resolution: {integrity: sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@vue/devtools-api': 6.4.5
+      vue: 3.2.44
+    dev: false
 
   /vue/3.2.44:
     resolution: {integrity: sha512-nyNtFDh+0TpRgYCUVfPD1mJ9PpIsCPXaOF4DeGNIT5vQ4X23ykflGq3Sy2P+tEt1/pQZxZnAysuRKwyhNj+Cjw==}

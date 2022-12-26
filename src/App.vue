@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <v-icon icon="mdi-vuetify"></v-icon>
+    <router-view></router-view>
   </AppLayout>
 </template>
 
