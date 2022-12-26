@@ -10,7 +10,7 @@
       </v-btn>
     </v-app-bar>
 
-    <Navigation :drawer="state.drawer"></Navigation>
+    <Navigation :state="state"></Navigation>
 
     <v-main class="bg-grey-lighten-2">
       <slot></slot>

@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer class="text-start" v-model="drawer" temporary>
+  <v-navigation-drawer class="text-start" v-model="state.drawer" temporary>
 
     <v-list-item title="John Leider">
       <template v-slot:prepend>
@@ -39,7 +39,7 @@
 import { defineProps } from "vue";
 
 defineProps({
-  drawer: Boolean
+  state: Object
 })
 </script>
 
