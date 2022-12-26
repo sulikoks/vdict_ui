@@ -4,6 +4,9 @@ import App from "./App.vue";
 import router from "./router";
 import vuetify from "./core/vuetify";
 import loader from "./core/loader";
+import kvstorage from "./core/kvstorage";
+
+kvstorage.checkStorage();
 
 createApp(App)
   .use(router)

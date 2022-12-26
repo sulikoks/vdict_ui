@@ -33,9 +33,9 @@ export default defineConfig({
         "safari-pinned-tab.svg",
       ],
       manifest: {
-        name: "Vocabulary Bank",
-        short_name: "VBank",
-        description: "My Awesome Vocabulary Bank",
+        name: "VDictionary",
+        short_name: "VDict",
+        description: "My Awesome Vocabulary Dictionary",
         theme_color: "#ffffff",
         background_color: "#ffffff",
         display: "standalone",
