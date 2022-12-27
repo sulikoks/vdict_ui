@@ -14,7 +14,7 @@
           label="Select"
           return-object
           single-line
-          @update:modelValue="translate"
+          @update:modelValue="switchLanguage"
         ></v-select>
       </v-col>
 
@@ -22,7 +22,7 @@
         <v-btn
           icon="mdi-swap-horizontal"
           color="grey"
-          @click="switchLanguages"
+          @click="exchangeLanguages"
         ></v-btn>
       </v-col>
 
@@ -39,7 +39,7 @@
           label="Select"
           return-object
           single-line
-          @update:modelValue="translate"
+          @update:modelValue="switchLanguage"
         ></v-select>
       </v-col>
     </v-row>
@@ -108,6 +108,7 @@
 <script setup>
 import { reactive } from "vue";
 import translator from "../core/translator";
+import kvstorage from "../core/kvstorage";
 
 const state = reactive({
   loading: false,
@@ -126,12 +127,29 @@ const state = reactive({
   history: [],
 });
 
-function switchLanguages() {
+const def = kvstorage.getLastLanguages();
+if (def?.source && def?.target) {
+  state.selectedSource = def.source;
+  state.selectedTarget = def.target;
+}
+
+function switchLanguage() {
+  saveLanguagesSettings();
+  translate().then();
+}
+function exchangeLanguages() {
   if (state.selectedSource.code === "auto") return;
   const prev = state.selectedSource;
   state.selectedSource = state.selectedTarget;
   state.selectedTarget = prev;
+  saveLanguagesSettings();
   translate().then();
+}
+function saveLanguagesSettings() {
+  kvstorage.saveLastLanguages({
+    source: state.selectedSource,
+    target: state.selectedTarget,
+  });
 }
 
 async function pastText() {
@@ -165,6 +183,7 @@ function chooseHistoryItem(item) {
   addHistoryItem(item);
 }
 function addHistoryItem(item) {
+  if (item.resultTarget === item.resultSource) return;
   state.history.unshift(item);
 }
 function deleteHistoryItem(item) {

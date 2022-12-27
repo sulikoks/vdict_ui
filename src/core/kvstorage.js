@@ -1,4 +1,5 @@
 const KEY_WORD_SET_LIST = "WORD_SET_LIST";
+const KEY_LAST_LANGUAGES = "LAST_LANGUAGES";
 
 const getDefaultWordSet = () => ({
   id: "DEFAULT",
@@ -38,18 +39,23 @@ class KVStorage {
   getWordSetList() {
     return this.get(KEY_WORD_SET_LIST);
   }
-
   saveWordSet(wordSet) {
     const list = this.getWordSetList();
     const newList = [...(list || []), wordSet];
     this.set(KEY_WORD_SET_LIST, newList);
   }
-
   deleteWordSet(wordSet) {
     if (wordSet.id === getDefaultWordSet().id) return;
     const list = this.getWordSetList();
     const newList = (list || []).filter((item) => item.id !== wordSet.id);
     this.set(KEY_WORD_SET_LIST, newList);
+  }
+
+  getLastLanguages() {
+    return this.get(KEY_LAST_LANGUAGES);
+  }
+  saveLastLanguages(languages) {
+    this.set(KEY_LAST_LANGUAGES, languages);
   }
 }
 

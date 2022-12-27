@@ -29,7 +29,7 @@
         <v-btn block variant="flat">
           Logout
         </v-btn>
-        <v-list-item class="mt-2 text-center" >v0.1.5</v-list-item>
+        <v-list-item class="mt-2 text-center" >v0.1.6</v-list-item>
       </div>
     </template>
   </v-navigation-drawer>
