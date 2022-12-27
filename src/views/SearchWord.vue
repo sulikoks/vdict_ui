@@ -1,60 +1,108 @@
 <template>
-  <div>
-    <v-container>
-      <v-row>
-        <v-col>
-          <v-select
-            v-model="state.selectedSource"
-            :items="
-              state.selectItems.filter(
-                (l) => l.code !== state.selectedTarget.code
-              )
-            "
-            item-title="state"
-            item-value="abbr"
-            label="Select"
-            return-object
-            single-line
-          ></v-select>
-        </v-col>
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-select
+          v-model="state.selectedSource"
+          :items="
+            state.selectItems.filter(
+              (l) => l.code !== state.selectedTarget.code
+            )
+          "
+          item-title="state"
+          item-value="abbr"
+          label="Select"
+          return-object
+          single-line
+          @update:modelValue="translate"
+        ></v-select>
+      </v-col>
 
-        <v-col class="flex-grow-0">
-          <v-btn
-            icon="mdi-swap-horizontal"
-            color="grey"
-            @click="switchLanguages"
-          ></v-btn>
-        </v-col>
+      <v-col class="flex-grow-0 pt-4">
+        <v-btn
+          icon="mdi-swap-horizontal"
+          color="grey"
+          @click="switchLanguages"
+        ></v-btn>
+      </v-col>
 
-        <v-col>
-          <v-select
-            v-model="state.selectedTarget"
-            :items="
-              state.selectItems.filter(
-                (l) => l.code !== state.selectedSource.code
-              )
-            "
-            item-title="state"
-            item-value="abbr"
-            label="Select"
-            return-object
-            single-line
-          ></v-select>
-        </v-col>
-      </v-row>
-    </v-container>
+      <v-col>
+        <v-select
+          v-model="state.selectedTarget"
+          :items="
+            state.selectItems.filter(
+              (l) => l.code !== state.selectedSource.code
+            )
+          "
+          item-title="state"
+          item-value="abbr"
+          label="Select"
+          return-object
+          single-line
+          @update:modelValue="translate"
+        ></v-select>
+      </v-col>
+    </v-row>
     <v-text-field
-      v-model="state.text"
-      color="success"
+      class="ml-n4 mr-n4 mb-4"
+      v-model="state.inputSource"
+      label="Write here..."
+      :color="state.inputColor"
       :loading="state.loading"
+      append-inner-icon="mdi-clipboard-arrow-down"
+      single-line
+      hide-details
+      clearable
+      autofocus
       @change.passive="translate"
-    ></v-text-field>
+      @input="valueChanged"
+      @click:append-inner="pastText"
+      @click:clear="clearText"
+    >
+    </v-text-field>
+    <v-text-field
+      class="ml-n4 mr-n4 mb-4"
+      :model-value="state.inputTarget"
+      append-inner-icon="mdi-clipboard-arrow-up-outline"
+      color="grey"
+      label="Translation..."
+      readonly
+      single-line
+      hide-details
+      @change.passive="translate"
+      @input="valueChanged"
+      @click:append-inner="copyText"
+    >
+    </v-text-field>
 
-    <template v-if="state.resultTarget">
-      <div class="text-h4">{{ state.resultSource }}</div>
-      <div class="text-h5">{{ state.resultTarget }}</div>
-    </template>
-  </div>
+    <div class="mb-4 text-h6">HISTORY</div>
+    <v-list-item
+      class="v-list-item--link border-b-sm"
+      v-for="(item, i) in state.history"
+      :key="i"
+      :title="item.resultSource"
+      :subtitle="item.resultTarget"
+      theme="light"
+      variant="plain"
+      lines="one"
+      @click="chooseHistoryItem(item)"
+    >
+      <template v-slot:append>
+        <v-icon
+          class="v-icon--clickable"
+          icon="mdi-close"
+          @click.prevent="deleteHistoryItem(item)"
+        ></v-icon>
+      </template>
+    </v-list-item>
+
+    <v-snackbar v-model="state.showedCopy" :timeout="1500" color="success">
+      Transition copied
+    </v-snackbar>
+    <v-snackbar v-model="state.showedPast" :timeout="1500">
+      Nothing to paste
+    </v-snackbar>
+  </v-container>
 </template>
 
 <script setup>
@@ -62,6 +110,9 @@ import { reactive } from "vue";
 import translator from "../core/translator";
 
 const state = reactive({
+  loading: false,
+  showedCopy: false,
+  showedPast: false,
   selectedSource: { state: "Detect", code: "auto" },
   selectedTarget: { state: "English", code: "en" },
   selectItems: [
@@ -69,10 +120,10 @@ const state = reactive({
     { state: "Japanese", code: "ja" },
     { state: "English", code: "en" },
   ],
-  loading: false,
-  text: "",
-  resultSource: "",
-  resultTarget: "",
+  inputColor: "", // 'success'
+  inputSource: "",
+  inputTarget: "",
+  history: [],
 });
 
 function switchLanguages() {
@@ -80,18 +131,67 @@ function switchLanguages() {
   const prev = state.selectedSource;
   state.selectedSource = state.selectedTarget;
   state.selectedTarget = prev;
+  translate().then();
+}
+
+async function pastText() {
+  const text = await navigator.clipboard.readText();
+  if (text.length) {
+    state.inputSource = text.slice(0, 30);
+    translate().then();
+  } else {
+    state.showedPast = true;
+  }
+}
+async function copyText() {
+  state.showedCopy = true;
+  await navigator.clipboard.writeText(state.inputTarget);
+}
+
+function clearText() {
+  state.inputSource = "";
+  state.inputTarget = "";
+  valueChanged();
+}
+
+function valueChanged() {
+  state.inputColor = "";
+}
+
+function chooseHistoryItem(item) {
+  deleteHistoryItem(item);
+  state.inputTarget = item.resultTarget;
+  state.inputSource = item.resultSource;
+  addHistoryItem(item);
+}
+function addHistoryItem(item) {
+  state.history.unshift(item);
+}
+function deleteHistoryItem(item) {
+  state.history = state.history.filter((i) => i !== item);
 }
 
 async function translate() {
   try {
+    if (!state.inputSource || state.loading) return;
+    state.loading = true;
+    state.inputColor = "success";
+    state.inputSource = state.inputSource.toLowerCase();
+
     translator.sourceLang = state.selectedSource.code;
     translator.targetLang = state.selectedTarget.code;
-    const result = await translator.translate(state.text);
-    state.resultSource = state.text.toLowerCase();
-    state.resultTarget = result.toLowerCase();
+    const result = await translator.translate(state.inputSource);
+    state.inputTarget = result.toLowerCase();
+
+    addHistoryItem({
+      resultSource: state.inputSource,
+      resultTarget: result.toLowerCase(),
+    });
   } catch (e) {
-    state.resultSource = state.text.toLowerCase();
-    state.resultTarget = "Error, Sorry :(";
+    state.inputColor = "error";
+    state.inputTarget = "Error, Sorry :(";
+  } finally {
+    state.loading = false;
   }
 }
 </script>
