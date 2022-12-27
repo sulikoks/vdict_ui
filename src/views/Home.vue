@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <div class="mt-n12 text-h5">Word set list</div>
+  <div class="pt-4">
+    <div class="text-h5 text-center">Word set list</div>
     <v-list-item
-      class="text-start"
       v-for="wordSet in state.wordSetList"
       :key="wordSet.id"
       :title="wordSet.name"
