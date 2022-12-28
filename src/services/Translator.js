@@ -17,7 +17,7 @@ class Translator {
     const res = await fetch(this.getUrl(sourceText));
     const data = await res.json();
     console.log(data);
-    return data[0][0][0];
+    return { translation: data[0][0][0], source: data[2] };
   }
 }
 

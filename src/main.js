@@ -4,10 +4,9 @@ import "./css/index.scss";
 
 import router from "./router";
 import vuetify from "./core/vuetify";
-import loader from "./core/loader";
-import kvstorage from "./core/kvstorage";
+import { UILoader, KVStorage } from "./services";
 
-kvstorage.checkStorage();
+KVStorage.init();
 
 createApp(App)
   .use(router)
@@ -16,5 +15,5 @@ createApp(App)
   .$nextTick()
   .then(() => {
     console.log("Hello! App is loaded");
-    loader.hide();
+    UILoader.hide();
   });

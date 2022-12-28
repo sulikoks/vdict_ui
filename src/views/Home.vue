@@ -63,7 +63,7 @@
           <v-text-field
             class="mt-4"
             v-model="state.editedWordSet.emoji"
-            label="Emoji"
+            label="Emoji or symbol"
             clearable
             :rules="[required, emojiOrLetter]"
           ></v-text-field>
@@ -95,15 +95,8 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import kvstorage from "../core/kvstorage";
+import { ServiceWordSet } from "../services";
 import { required, emojiOrLetter } from "../utils";
-
-const getEmptyWordSet = () => ({
-  id: Date.now(),
-  emoji: "📚",
-  name: "",
-  description: "",
-});
 
 const form = ref(null);
 const state = reactive({
@@ -117,7 +110,7 @@ const state = reactive({
 
 updateWordSetList();
 function updateWordSetList() {
-  state.wordSetList = kvstorage.getWordSetList();
+  state.wordSetList = ServiceWordSet.getWordSetList();
 }
 
 function closeWordSetEditor() {
@@ -132,11 +125,11 @@ function editWordSet(wordSet) {
   state.edited = true;
 }
 function createNewWordSet() {
-  state.editedWordSet = getEmptyWordSet();
+  state.editedWordSet = ServiceWordSet.getEmptyWordSet();
 }
 
 function deleteWordSet(wordSet) {
-  kvstorage.deleteWordSet(wordSet);
+  ServiceWordSet.deleteWordSet(wordSet);
   updateWordSetList();
   closeWordSetEditor();
 }
@@ -147,11 +140,11 @@ async function saveWordSet() {
     return;
   }
   if (state.edited) {
-    kvstorage.deleteWordSet(state.editedWordSet);
+    ServiceWordSet.deleteWordSet(state.editedWordSet);
   } else {
     state.editedWordSet.id = Date.now();
   }
-  kvstorage.saveWordSet(state.editedWordSet);
+  ServiceWordSet.saveWordSet(state.editedWordSet);
   updateWordSetList();
   closeWordSetEditor();
 }

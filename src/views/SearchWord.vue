@@ -5,7 +5,7 @@
         <v-select
           v-model="state.selectedSource"
           :items="
-            state.selectItems.filter(
+            state.selectItemsSource.filter(
               (l) => l.code !== state.selectedTarget.code
             )
           "
@@ -30,7 +30,7 @@
         <v-select
           v-model="state.selectedTarget"
           :items="
-            state.selectItems.filter(
+            state.selectItemsTarget.filter(
               (l) => l.code !== state.selectedSource.code
             )
           "
@@ -107,27 +107,26 @@
 
 <script setup>
 import { reactive } from "vue";
-import translator from "../core/translator";
-import kvstorage from "../core/kvstorage";
+import { Translator, ServiceLangSettings } from "../services";
+
+const autoLanguage = ServiceLangSettings.getAutoLanguage();
+const languageList = ServiceLangSettings.getLanguageList();
 
 const state = reactive({
   loading: false,
   showedCopy: false,
   showedPast: false,
-  selectedSource: { state: "Detect", code: "auto" },
-  selectedTarget: { state: "English", code: "en" },
-  selectItems: [
-    { state: "Russian", code: "ru" },
-    { state: "Japanese", code: "ja" },
-    { state: "English", code: "en" },
-  ],
+  selectedSource: { ...autoLanguage },
+  selectedTarget: { ...languageList[0] },
+  selectItemsSource: [{ ...autoLanguage }, ...languageList],
+  selectItemsTarget: [...languageList],
   inputColor: "", // 'success'
   inputSource: "",
   inputTarget: "",
   history: [],
 });
 
-const def = kvstorage.getLastLanguages();
+const def = ServiceLangSettings.getLastLanguages();
 if (def?.source && def?.target) {
   state.selectedSource = def.source;
   state.selectedTarget = def.target;
@@ -146,7 +145,7 @@ function exchangeLanguages() {
   translate().then();
 }
 function saveLanguagesSettings() {
-  kvstorage.saveLastLanguages({
+  ServiceLangSettings.saveLastLanguages({
     source: state.selectedSource,
     target: state.selectedTarget,
   });
@@ -183,7 +182,7 @@ function chooseHistoryItem(item) {
   addHistoryItem(item);
 }
 function addHistoryItem(item) {
-  if (item.resultTarget === item.resultSource) return;
+  if (item.resultTarget.trim() === item.resultSource.trim()) return;
   state.history.unshift(item);
 }
 function deleteHistoryItem(item) {
@@ -195,22 +194,39 @@ async function translate() {
     if (!state.inputSource || state.loading) return;
     state.loading = true;
     state.inputColor = "success";
-    state.inputSource = state.inputSource.toLowerCase();
+    state.inputSource = state.inputSource.toLowerCase().trim();
 
-    translator.sourceLang = state.selectedSource.code;
-    translator.targetLang = state.selectedTarget.code;
-    const result = await translator.translate(state.inputSource);
-    state.inputTarget = result.toLowerCase();
+    Translator.sourceLang = state.selectedSource.code;
+    Translator.targetLang = state.selectedTarget.code;
+    const result = await Translator.translate(state.inputSource);
+    state.inputTarget = result.translation.toLowerCase().trim();
 
+    checkAndAddNewLanguage(result.source);
+    state.selectedSource.code = result.source;
     addHistoryItem({
       resultSource: state.inputSource,
-      resultTarget: result.toLowerCase(),
+      resultTarget: state.inputTarget,
     });
   } catch (e) {
     state.inputColor = "error";
     state.inputTarget = "Error, Sorry :(";
   } finally {
     state.loading = false;
+  }
+}
+
+function checkAndAddNewLanguage(code) {
+  if (!code) return;
+  if (languageList.every((lang) => lang.id !== code)) {
+    const newLanguage = {
+      id: code,
+      code: code,
+      state: code.toUpperCase(),
+    };
+    languageList.push(newLanguage);
+    state.selectItemsSource.push(newLanguage);
+    state.selectItemsTarget.push(newLanguage);
+    ServiceLangSettings.saveLanguage(newLanguage);
   }
 }
 </script>

@@ -1,4 +1,4 @@
-class Loader {
+class UILoader {
   id = "main-loader";
   idApp = "app";
   constructor() {
@@ -19,4 +19,4 @@ class Loader {
     // this.$elApp.style.display = "none";
   }
 }
-export default new Loader();
+export default new UILoader();
